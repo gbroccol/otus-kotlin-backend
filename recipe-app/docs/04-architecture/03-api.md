@@ -38,9 +38,11 @@
 1. **Recipe**
    1. CRUDs
       - create
-      - read
+      - read (getById / getAll)
       - update
       - delete
       - search - поиск по фильтрам
    2. Дополнительные 
       - offers (поиск подходящих рецнптов на основе информации о избранных)
+   
+   ![api-recipe](api-recipe.png)
