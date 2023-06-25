@@ -16,8 +16,5 @@ pluginManagement {
 
 //include("m1l1-hello")
 
-//include("ok-marketplace-api-v1-jackson")
-//include("ok-marketplace-api-v2-kmp")
-
 include("recipe-app-api-v1-jackson")
-include("recipe-app-api-v2-kmp")
+include("recipe-app-api-v1-kmp")
