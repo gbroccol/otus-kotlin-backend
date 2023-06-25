@@ -1,16 +1,16 @@
 package ru.otus.otuskotlin.marketplace.api.v2.requests
 
 import kotlinx.serialization.KSerializer
-import ru.otus.otuskotlin.marketplace.api.v2.models.AdDeleteResponse
+import ru.otus.otuskotlin.marketplace.api.v2.models.RecipeDeleteResponse
 import ru.otus.otuskotlin.marketplace.api.v2.models.IResponse
 import kotlin.reflect.KClass
 
 object DeleteResponseStrategy: IResponseStrategy {
     override val discriminator: String = "delete"
-    override val clazz: KClass<out IResponse> = AdDeleteResponse::class
-    override val serializer: KSerializer<out IResponse> = AdDeleteResponse.serializer()
+    override val clazz: KClass<out IResponse> = RecipeDeleteResponse::class
+    override val serializer: KSerializer<out IResponse> = RecipeDeleteResponse.serializer()
     override fun <T : IResponse> fillDiscriminator(req: T): T {
-        require(req is AdDeleteResponse)
+        require(req is RecipeDeleteResponse)
         @Suppress("UNCHECKED_CAST")
         return req.copy(responseType = discriminator) as T
     }
