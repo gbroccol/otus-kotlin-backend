@@ -33,18 +33,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RecipeCreateResponse'
-  /ad/read:
+  /recipe/read:
     post:
       tags:
-        - ad
-      summary: Read ad
-      operationId: adRead
+        - recipe
+      summary: Get recipes
+      operationId: recipeRead
       requestBody:
         description: Request body
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdReadRequest'
+              $ref: '#/components/schemas/RecipeReadRequest'
         required: true
       responses:
         200:
@@ -52,19 +52,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdReadResponse'
-  /ad/update:
+                $ref: '#/components/schemas/RecipeReadResponse'
+  /recipe/update:
     post:
       tags:
-        - ad
-      summary: Update ad
-      operationId: adUpdate
+        - recipe
+      summary: Update recipe
+      operationId: recipeUpdate
       requestBody:
         description: Request body
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdUpdateRequest'
+              $ref: '#/components/schemas/RecipeUpdateRequest'
         required: true
       responses:
         200:
@@ -72,19 +72,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdUpdateResponse'
-  /ad/delete:
+                $ref: '#/components/schemas/RecipeUpdateResponse'
+  /recipe/delete:
     post:
       tags:
-        - ad
-      summary: Delete ad
-      operationId: adDelete
+        - recipe
+      summary: Delete recipe
+      operationId: recipeDelete
       requestBody:
         description: Request body
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdDeleteRequest'
+              $ref: '#/components/schemas/RecipeDeleteRequest'
         required: true
       responses:
         200:
@@ -92,19 +92,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdDeleteResponse'
-  /ad/search:
+                $ref: '#/components/schemas/RecipeDeleteResponse'
+  /recipe/search:
     post:
       tags:
-        - ad
-      summary: Search ad
-      operationId: adSearch
+        - recipe
+      summary: Search recipe
+      operationId: recipeSearch
       requestBody:
         description: Request body
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdSearchRequest'
+              $ref: '#/components/schemas/RecipeSearchRequest'
         required: true
       responses:
         200:
@@ -112,19 +112,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdSearchResponse'
-  /ad/offers:
+                $ref: '#/components/schemas/RecipeSearchResponse'
+  /recipe/offers:
     post:
       tags:
-        - ad
+        - recipe
       summary: Search offers
-      operationId: adOffers
+      operationId: recipeOffers
       requestBody:
         description: Request body
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdOffersRequest'
+              $ref: '#/components/schemas/RecipeOffersRequest'
         required: true
       responses:
         200:
@@ -132,7 +132,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdOffersResponse'
+                $ref: '#/components/schemas/RecipeOffersResponse'
 
 components:
   schemas:
@@ -152,11 +152,11 @@ components:
         propertyName: requestType
         mapping:
           create: '#/components/schemas/RecipeCreateRequest'
-          read:   '#/components/schemas/AdReadRequest'
-          update: '#/components/schemas/AdUpdateRequest'
-          delete: '#/components/schemas/AdDeleteRequest'
-          search: '#/components/schemas/AdSearchRequest'
-          offers: '#/components/schemas/AdOffersRequest'
+          read:   '#/components/schemas/RecipeReadRequest'
+          update: '#/components/schemas/RecipeUpdateRequest'
+          delete: '#/components/schemas/RecipeDeleteRequest'
+          search: '#/components/schemas/RecipeSearchRequest'
+          offers: '#/components/schemas/RecipeInitResponse'
 
     Error:
       type: object
@@ -197,126 +197,209 @@ components:
       discriminator:
         propertyName: responseType
         mapping:
-          create: '#/components/schemas/AdCreateResponse'
-          read:   '#/components/schemas/AdReadResponse'
-          update: '#/components/schemas/AdUpdateResponse'
-          delete: '#/components/schemas/AdDeleteResponse'
-          search: '#/components/schemas/AdSearchResponse'
-          offers: '#/components/schemas/AdOffersResponse'
-          init: '#/components/schemas/AdInitResponse'
-
+          create: '#/components/schemas/RecipeCreateResponse'
+          read:   '#/components/schemas/RecipeReadResponse'
+          update: '#/components/schemas/RecipeUpdateResponse'
+          delete: '#/components/schemas/RecipeDeleteResponse'
+          search: '#/components/schemas/RecipeSearchResponse'
+          offers: '#/components/schemas/RecipeOffersResponse'
+          init: '#/components/schemas/RecipeInitResponse'
 
     UserId:
-      type: string
+      type: integer
+      format: int64
       description: Идентификатор пользователя
-    AdId:
-      type: string
-      description: Идентификатор объявления
-    AdLock:
+    RecipeId:
+      type: integer
+      format: int64
+      description: Идентификатор рецепта
+    RecipeLock:
       type: string
       description: Версия оптимистичной блокировки
 
-    BaseAd:
+    BaseRecipe:
       type: object
       description: Объект описывает свойства, одинаковые для create и update
       properties:
-        title:
+        userId:
+          type: integer
+          format: int64
+          description: id пользователя, создавшего рецепт
+        name:
           type: string
-          description: Заголовок объявления
+          description: Название рецепта
         description:
           type: string
-          description: Описание объявления
-        adType:
-          $ref: '#/components/schemas/DealSide'
-        visibility:
-          $ref: '#/components/schemas/AdVisibility'
+          description: Описание рецепта
+        photo:
+          type: string
+          description: Ссылка на фото для preview
+        cookingTime:
+          type: string
+          description: Общее время приготовления
+        activeCookingTime:
+          type: string
+          description: Активное время приготовления (у плиты)
+        portionQnt:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Кол-во порций
+        proteins:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Белки на 1 порцию
+        fats:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Жиры на 1 порцию
+        carbohydrates:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Углеводы на 1 порцию
+        calories:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Калории на 1 порцию
+        spiciness:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 5
+          description: Острота блюда от 1 до 5
+        complexityScale:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 5
+          description: Сложность приготовления от 1 до 5
+        createDt:
+          type: string
+          format: date-time
+          description: Время создания
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeStep'
 
-    DealSide:
+    RecipeIngredient:
+      type: object
+      description: Объект описывает ингредиент для рецепта
+      properties:
+        ingredientId:
+          type: integer
+          format: int64
+          minimum: 0
+        qnt:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Кол-во ингредиентов
+        unit:
+          $ref: '#/components/schemas/IngredientUnit'
+
+    RecipeStep:
+      type: object
+      description: Этапы приготовления блюда с описанием и фотографией
+      properties:
+        stepNmb:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Номер этапа приготовления блюда
+        photo:
+          type: string
+        description:
+          type: string
+          description: Описание текущего шага приготовления блюда
+
+    IngredientUnit:
       type: string
-      description: 'Сторона сделки: спрос или предложение'
+      description: ед. измерения - g (грамм) / ml (милилитр) / ct (count/штука)
       enum:
-        - demand
-        - supply
+        - g
+        - ml
+        - ct
 
-    AdVisibility:
-      type: string
-      description: 'Тип видимости объявления. Возможные значения: видит только владелец, только зарегистрированный в системе пользователь, видимо всем'
-      enum:
-        - ownerOnly
-        - registeredOnly
-        - public
-
-    AdInitResponse:
+    RecipeInitResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
 
-    AdCreateObject:
+    RecipeCreateObject:
       allOf:
-        - $ref: '#/components/schemas/BaseAd'
+        - $ref: '#/components/schemas/BaseRecipe'
 
     RecipeCreateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/AdRequestDebug'
+        - $ref: '#/components/schemas/RecipeRequestDebug'
         - type: object
           properties:
-            ad:
-              $ref: '#/components/schemas/AdCreateObject'
+            recipe:
+              $ref: '#/components/schemas/RecipeCreateObject'
 
-    AdReadObject:
+    RecipeReadObject:
       allOf:
         - type: object
           properties:
             id:
-              $ref: '#/components/schemas/AdId'
+              $ref: '#/components/schemas/RecipeId'
 
-    AdReadRequest:
+    RecipeReadRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/AdRequestDebug'
+        - $ref: '#/components/schemas/RecipeRequestDebug'
         - type: object
           properties:
-            ad:
-              $ref: '#/components/schemas/AdReadObject'
+            recipe:
+              $ref: '#/components/schemas/RecipeReadObject'
 
-    AdUpdateObject:
+    RecipeUpdateObject:
       allOf:
-        - $ref: '#/components/schemas/BaseAd'
+        - $ref: '#/components/schemas/BaseRecipe'
         - type: object
           properties:
             id:
-              $ref: '#/components/schemas/AdId'
+              $ref: '#/components/schemas/RecipeId'
             lock:
-              $ref: '#/components/schemas/AdLock'
+              $ref: '#/components/schemas/RecipeLock'
 
-    AdUpdateRequest:
+    RecipeUpdateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/AdRequestDebug'
+        - $ref: '#/components/schemas/RecipeRequestDebug'
         - type: object
           properties:
-            ad:
-              $ref: '#/components/schemas/AdUpdateObject'
+            recipe:
+              $ref: '#/components/schemas/RecipeUpdateObject'
 
-    AdDeleteObject:
+    RecipeDeleteObject:
       allOf:
         - type: object
           properties:
             id:
-              $ref: '#/components/schemas/AdId'
+              $ref: '#/components/schemas/RecipeId'
             lock:
-              $ref: '#/components/schemas/AdLock'
+              $ref: '#/components/schemas/RecipeLock'
 
-    AdDeleteRequest:
+    RecipeDeleteRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/AdRequestDebug'
+        - $ref: '#/components/schemas/RecipeRequestDebug'
         - type: object
           properties:
-            ad:
-              $ref: '#/components/schemas/AdDeleteObject'
+            recipe:
+              $ref: '#/components/schemas/RecipeDeleteObject'
 
-    AdSearchFilter:
+    RecipeSearchFilter:
       type: object
       description: Набор фильтров для поиска
       properties:
@@ -324,46 +407,39 @@ components:
           type: string
           description: Поисковая строка, которая будет искаться в объявлениях
 
-    AdSearchRequest:
+    RecipeSearchRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/AdRequestDebug'
+        - $ref: '#/components/schemas/RecipeRequestDebug'
         - type: object
           properties:
-            adFilter:
-              $ref: '#/components/schemas/AdSearchFilter'
+            recipeFilter:
+              $ref: '#/components/schemas/RecipeSearchFilter'
 
-    AdOffersObject:
-      $ref: '#/components/schemas/AdReadObject'
+    RecipeOffersObject:
+      $ref: '#/components/schemas/RecipeReadObject'
 
-    AdOffersRequest:
+    RecipeOffersRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/AdRequestDebug'
+        - $ref: '#/components/schemas/RecipeRequestDebug'
         - type: object
           properties:
-            ad:
-              $ref: '#/components/schemas/AdOffersObject'
+            recipe:
+              $ref: '#/components/schemas/RecipeOffersObject'
 
-    AdResponseObject:
+    RecipeResponseObject:
       allOf:
-        - $ref: '#/components/schemas/BaseAd'
+        - $ref: '#/components/schemas/BaseRecipe'
         - type: object
           description: Объект, который возвращается в ответе бэкенда
           properties:
             id:
-              $ref: '#/components/schemas/AdId'
-            ownerId:
-              $ref: '#/components/schemas/UserId'
+              $ref: '#/components/schemas/RecipeId'
             lock:
-              $ref: '#/components/schemas/AdLock'
-            permissions:
-              type: array
-              uniqueItems: true
-              items:
-                $ref: '#/components/schemas/AdPermissions'
+              $ref: '#/components/schemas/RecipeLock'
 
-    AdPermissions:
+    RecipePermissions:
       type: string
       description: Доступы для клиента для операций над объявлением
       enum:
@@ -374,78 +450,78 @@ components:
         - makeVisibleOwn
         - makeVisibleGroup
 
-    AdResponseSingle:
+    RecipeResponseSingle:
       allOf:
         - type: object
           description: Ответ с одним объектом объявления
           properties:
-            ad:
-              $ref: '#/components/schemas/AdResponseObject'
+            recipe:
+              $ref: '#/components/schemas/RecipeResponseObject'
 
-    AdResponseMulti:
+    RecipeResponseMulti:
       allOf:
         - type: object
-          description: Список найденных объектов
+          description: Список найденных рецептов
           properties:
-            ads:
+            recipes:
               type: array
               items:
-                $ref: '#/components/schemas/AdResponseObject'
+                $ref: '#/components/schemas/RecipeResponseObject'
 
     RecipeCreateResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/AdResponseSingle'
+        - $ref: '#/components/schemas/RecipeResponseSingle'
 
-    AdReadResponse:
+    RecipeReadResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/AdResponseSingle'
+        - $ref: '#/components/schemas/RecipeResponseSingle'
 
-    AdUpdateResponse:
+    RecipeUpdateResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/AdResponseSingle'
+        - $ref: '#/components/schemas/RecipeResponseSingle'
 
-    AdDeleteResponse:
+    RecipeDeleteResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/AdResponseSingle'
+        - $ref: '#/components/schemas/RecipeResponseSingle'
 
-    AdSearchResponse:
+    RecipeSearchResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/AdResponseMulti'
+        - $ref: '#/components/schemas/RecipeResponseMulti'
 
-    AdOffersResponse:
+    RecipeOffersResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/AdResponseSingle'
-        - $ref: '#/components/schemas/AdResponseMulti'
+        - $ref: '#/components/schemas/RecipeResponseSingle'
+        - $ref: '#/components/schemas/RecipeResponseMulti'
 
     # STUBS ======================
-    AdRequestDebugMode:
+    RecipeRequestDebugMode:
       type: string
       enum:
         - prod
         - test
         - stub
 
-    AdRequestDebug:
+    RecipeRequestDebug:
       type: object
       properties:
         debug:
-          $ref: '#/components/schemas/AdDebug'
+          $ref: '#/components/schemas/RecipeDebug'
 
-    AdDebug:
+    RecipeDebug:
       type: object
       properties:
         mode:
-          $ref: '#/components/schemas/AdRequestDebugMode'
+          $ref: '#/components/schemas/RecipeRequestDebugMode'
         stub:
-          $ref: '#/components/schemas/AdRequestDebugStubs'
+          $ref: '#/components/schemas/RecipeRequestDebugStubs'
 
-    AdRequestDebugStubs:
+    RecipeRequestDebugStubs:
       type: string
       description: Перечисления всех стабов
       enum:
