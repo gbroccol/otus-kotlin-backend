@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("org.openapi.generator") version "6.3.0" // TODO Не работает без версии :(
+    id("org.openapi.generator")
 }
 
 dependencies {
