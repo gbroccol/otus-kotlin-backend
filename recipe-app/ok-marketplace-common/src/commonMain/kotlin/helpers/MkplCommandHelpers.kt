@@ -1,7 +1,7 @@
-package ru.otus.otuskotlin.marketplace.common.helpers
+package ru.otus.otuskotlin.recipe.common.helpers
 
-import ru.otus.otuskotlin.marketplace.common.MkplContext
-import ru.otus.otuskotlin.marketplace.common.models.MkplCommand
+import ru.otus.otuskotlin.recipe.common.MkplContext
+import ru.otus.otuskotlin.recipe.common.models.BookCommand
 
 fun MkplContext.isUpdatableCommand() =
-    this.command in listOf(MkplCommand.CREATE, MkplCommand.UPDATE, MkplCommand.DELETE)
+    this.command in listOf(BookCommand.CREATE, BookCommand.UPDATE, BookCommand.DELETE)

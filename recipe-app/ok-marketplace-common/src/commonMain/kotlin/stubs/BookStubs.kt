@@ -1,6 +1,6 @@
-package ru.otus.otuskotlin.marketplace.common.stubs
+package ru.otus.otuskotlin.recipe.common.stubs
 
-enum class MkplStubs {
+enum class BookStubs {
     NONE,
     SUCCESS,
     NOT_FOUND,

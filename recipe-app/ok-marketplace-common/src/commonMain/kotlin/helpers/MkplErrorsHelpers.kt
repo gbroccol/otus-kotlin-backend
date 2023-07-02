@@ -1,13 +1,13 @@
-package ru.otus.otuskotlin.marketplace.common.helpers
+package ru.otus.otuskotlin.recipe.common.helpers
 
-import ru.otus.otuskotlin.marketplace.common.MkplContext
-import ru.otus.otuskotlin.marketplace.common.models.MkplError
+import ru.otus.otuskotlin.recipe.common.MkplContext
+import ru.otus.otuskotlin.recipe.common.models.BookError
 
 fun Throwable.asMkplError(
     code: String = "unknown",
     group: String = "exceptions",
     message: String = this.message ?: "",
-) = MkplError(
+) = BookError(
     code = code,
     group = group,
     field = "",
@@ -15,4 +15,4 @@ fun Throwable.asMkplError(
     exception = this,
 )
 
-fun MkplContext.addError(vararg error: MkplError) = errors.addAll(error)
+fun MkplContext.addError(vararg error: BookError) = errors.addAll(error)

@@ -1,6 +1,6 @@
-package ru.otus.otuskotlin.marketplace.common.models
+package ru.otus.otuskotlin.recipe.common.models
 
-enum class MkplCommand {
+enum class BookCommand {
     NONE,
     CREATE,
     READ,

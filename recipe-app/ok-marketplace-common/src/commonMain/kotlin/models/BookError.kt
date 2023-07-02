@@ -1,6 +1,6 @@
-package ru.otus.otuskotlin.marketplace.common.models
+package ru.otus.otuskotlin.recipe.common.models
 
-data class MkplError(
+data class BookError(
     val code: String = "",
     val group: String = "",
     val field: String = "",
