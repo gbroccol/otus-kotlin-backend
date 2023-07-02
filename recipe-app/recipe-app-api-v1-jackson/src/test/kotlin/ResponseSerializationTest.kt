@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.api.v1
+package ru.otus.otuskotlin.recipe.api.v1
 
 import ru.otus.otuskotlin.marketplace.api.v1.models.*
 import kotlin.test.Test
@@ -9,7 +9,7 @@ class ResponseSerializationTest {
     private val response = RecipeCreateResponse(
         requestId = "123",
         recipe = RecipeResponseObject(
-            userId = 1,
+            ownerId = 1,
             name = "Шарлотка",
             description = "Один из самых популярных, вкусных и простых рецептов яблочных пирогов, который актуален круглый год. С этим рецептом шарлотка получится восхитительной, даже если вы печёте её впервые."
         )
@@ -19,7 +19,7 @@ class ResponseSerializationTest {
     fun serialize() {
         val json = apiV1Mapper.writeValueAsString(response)
 
-        assertContains(json, Regex("\"userId\":\\s*1"))
+        assertContains(json, Regex("\"ownerId\":\\s*1"))
         assertContains(json, Regex("\"name\":\\s*\"Шарлотка\""))
     }
 

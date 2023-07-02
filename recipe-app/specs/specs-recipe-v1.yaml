@@ -221,7 +221,7 @@ components:
       type: object
       description: Объект описывает свойства, одинаковые для create и update
       properties:
-        userId:
+        ownerId:
           type: integer
           format: int64
           description: id пользователя, создавшего рецепт
@@ -350,7 +350,7 @@ components:
       allOf:
         - type: object
           properties:
-            id:
+            recipeId:
               $ref: '#/components/schemas/RecipeId'
 
     RecipeReadRequest:
@@ -367,7 +367,7 @@ components:
         - $ref: '#/components/schemas/BaseRecipe'
         - type: object
           properties:
-            id:
+            recipeId:
               $ref: '#/components/schemas/RecipeId'
             lock:
               $ref: '#/components/schemas/RecipeLock'
@@ -385,7 +385,7 @@ components:
       allOf:
         - type: object
           properties:
-            id:
+            recipeId:
               $ref: '#/components/schemas/RecipeId'
             lock:
               $ref: '#/components/schemas/RecipeLock'
@@ -434,7 +434,7 @@ components:
         - type: object
           description: Объект, который возвращается в ответе бэкенда
           properties:
-            id:
+            recipeId:
               $ref: '#/components/schemas/RecipeId'
             lock:
               $ref: '#/components/schemas/RecipeLock'

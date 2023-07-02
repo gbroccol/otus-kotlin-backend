@@ -1,7 +1,7 @@
 package ru.otus.otuskotlin.recipe.mappers.v1
 
 import org.junit.Test
-import ru.otus.otuskotlin.recipe.api.v1.models.*
+import ru.otus.otuskotlin.marketplace.api.v1.models.*
 import ru.otus.otuskotlin.recipe.common.BookContext
 import ru.otus.otuskotlin.recipe.common.models.*
 import ru.otus.otuskotlin.recipe.common.stubs.BookStubs
