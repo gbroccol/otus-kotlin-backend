@@ -206,12 +206,10 @@ components:
           init: '#/components/schemas/RecipeInitResponse'
 
     UserId:
-      type: integer
-      format: int64
+      type: string
       description: Идентификатор пользователя
     RecipeId:
-      type: integer
-      format: int64
+      type: string
       description: Идентификатор рецепта
     RecipeLock:
       type: string
@@ -222,8 +220,7 @@ components:
       description: Объект описывает свойства, одинаковые для create и update
       properties:
         ownerId:
-          type: integer
-          format: int64
+          type: string
           description: id пользователя, создавшего рецепт
         name:
           type: string
@@ -295,8 +292,7 @@ components:
       description: Объект описывает ингредиент для рецепта
       properties:
         ingredientId:
-          type: integer
-          format: int64
+          type: string
           minimum: 0
         qnt:
           type: integer

@@ -13,7 +13,7 @@ class RequestSerializationTest {
             stub = RecipeRequestDebugStubs.BAD_TITLE
         ),
         recipe = RecipeCreateObject(
-            ownerId = 1,
+            ownerId = "1",
             name = "Шарлотка",
             description = "Один из самых популярных, вкусных и простых рецептов яблочных пирогов, который актуален круглый год. С этим рецептом шарлотка получится восхитительной, даже если вы печёте её впервые."
         )
@@ -23,7 +23,7 @@ class RequestSerializationTest {
     fun serialize() {
         val json = apiV1Mapper.writeValueAsString(request)
 
-        assertContains(json, Regex("\"ownerId\":\\s*1"))
+        assertContains(json, Regex("\"ownerId\":\\s*\"1\""))
         assertContains(json, Regex("\"name\":\\s*\"Шарлотка\""))
         assertContains(json, Regex("\"mode\":\\s*\"stub\""))
         assertContains(json, Regex("\"stub\":\\s*\"badTitle\""))

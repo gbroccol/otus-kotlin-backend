@@ -19,7 +19,7 @@ class MapperTest {
                 stub = RecipeRequestDebugStubs.SUCCESS,
             ),
             recipe = RecipeCreateObject(
-                ownerId = 1,
+                ownerId = "1",
                 name = "Шарлотка",
                 description = "desc",
                 photo = "photo",
@@ -35,17 +35,17 @@ class MapperTest {
                 createDt = "",
                 ingredients = mutableListOf(
                     RecipeIngredient(
-                        ingredientId = 1,
+                        ingredientId = "1",
                         qnt = 10,
                         unit = IngredientUnit.CT
                     ),
                     RecipeIngredient(
-                        ingredientId = 2,
+                        ingredientId = "2",
                         qnt = 11,
                         unit = IngredientUnit.G
                     ),
                     RecipeIngredient(
-                        ingredientId = 3,
+                        ingredientId = "3",
                         qnt = 12,
                         unit = IngredientUnit.ML
                     )
@@ -67,7 +67,7 @@ class MapperTest {
         assertEquals(BookStubs.SUCCESS, context.stubCase)
         assertEquals(BookWorkMode.STUB, context.workMode)
         assertEquals("1234", context.requestId.asString())
-        assertEquals(1L, context.recipeRequest.ownerId.asLong())
+        assertEquals("1", context.recipeRequest.ownerId.asString())
         assertEquals("Шарлотка", context.recipeRequest.name)
         val recipeIngredient: List<BookRecipeIngredient> = context.recipeRequest.ingredients
         assertEquals(3, recipeIngredient.size)

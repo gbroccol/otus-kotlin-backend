@@ -9,7 +9,7 @@ class ResponseSerializationTest {
     private val response = RecipeCreateResponse(
         requestId = "123",
         recipe = RecipeResponseObject(
-            ownerId = 1,
+            ownerId = "1",
             name = "Шарлотка",
             description = "Один из самых популярных, вкусных и простых рецептов яблочных пирогов, который актуален круглый год. С этим рецептом шарлотка получится восхитительной, даже если вы печёте её впервые."
         )
@@ -19,7 +19,7 @@ class ResponseSerializationTest {
     fun serialize() {
         val json = apiV1Mapper.writeValueAsString(response)
 
-        assertContains(json, Regex("\"ownerId\":\\s*1"))
+        assertContains(json, Regex("\"ownerId\":\\s*\"1\""))
         assertContains(json, Regex("\"name\":\\s*\"Шарлотка\""))
     }
 

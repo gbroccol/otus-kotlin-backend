@@ -16,11 +16,11 @@ fun BookContext.fromTransport(request: IRequest) = when (request) {
     else -> throw UnknownRequestClass(request.javaClass)
 }
 
-private fun Long?.toIngredientId() = this?.let { BookIngredientId(it) } ?: BookIngredientId.NONE
-private fun Long?.toRecipeId() = this?.let { BookRecipeId(it) } ?: BookRecipeId.NONE
-private fun Long?.toRecipeWithId() = BookRecipe(recipeId = this.toRecipeId())
+private fun String?.toIngredientId() = this?.let { BookIngredientId(it) } ?: BookIngredientId.NONE
+private fun String?.toRecipeId() = this?.let { BookRecipeId(it) } ?: BookRecipeId.NONE
+private fun String?.toRecipeWithId() = BookRecipe(recipeId = this.toRecipeId())
 
-private fun Long?.toUserId() = this?.let { BookUserId(it) } ?: BookUserId.NONE
+private fun String?.toUserId() = this?.let { BookUserId(it) } ?: BookUserId.NONE
 
 private fun IRequest?.requestId() = this?.requestId?.let { BookRequestId(it) } ?: BookRequestId.NONE
 

@@ -64,8 +64,8 @@ fun List<BookRecipe>.toTransportRecipe(): List<RecipeResponseObject>? = this
 
 private fun BookRecipe.toTransportRecipe(): RecipeResponseObject = RecipeResponseObject(
 
-    ownerId = this.ownerId.asLong(),
-    recipeId = this.recipeId.asLong(),
+    ownerId = this.ownerId.asString(),
+    recipeId = this.recipeId.asString(),
     name = this.name,
     description = this.description,
     photo = this.photo,
